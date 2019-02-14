@@ -1,0 +1,14 @@
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/bin/Debug/netcoreapp2.1/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/bin/Debug/netcoreapp2.1/xunit.runner.reporters.netcoreapp10.dll
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/bin/Debug/netcoreapp2.1/xunit.runner.utility.netcoreapp10.dll
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/bin/Debug/netcoreapp2.1/cb2dotnet_xunit.deps.json
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/bin/Debug/netcoreapp2.1/cb2dotnet_xunit.runtimeconfig.json
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/bin/Debug/netcoreapp2.1/cb2dotnet_xunit.runtimeconfig.dev.json
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/bin/Debug/netcoreapp2.1/cb2dotnet_xunit.dll
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/bin/Debug/netcoreapp2.1/cb2dotnet_xunit.pdb
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/obj/Debug/netcoreapp2.1/cb2dotnet_xunit.csprojAssemblyReference.cache
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/obj/Debug/netcoreapp2.1/cb2dotnet_xunit.csproj.CoreCompileInputs.cache
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/obj/Debug/netcoreapp2.1/cb2dotnet_xunit.AssemblyInfoInputs.cache
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/obj/Debug/netcoreapp2.1/cb2dotnet_xunit.AssemblyInfo.cs
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/obj/Debug/netcoreapp2.1/cb2dotnet_xunit.dll
+/Users/spidertong/Documents/cb2dotnet/cb2dotnet_xunit/obj/Debug/netcoreapp2.1/cb2dotnet_xunit.pdb
