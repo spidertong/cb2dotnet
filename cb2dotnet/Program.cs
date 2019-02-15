@@ -31,7 +31,7 @@ class Program
             decimal msglng = record.CLIRTVO_REC.MESSAGE_HEADER.MSGLNG;
             Console.WriteLine(msglng);
 
-            record.CLIRTVO_REC.MESSAGE_HEADER.MSGCNT = -123.45;
+            record.CLIRTVO_REC.MESSAGE_HEADER.MSGCNT = -123.456;
             Console.WriteLine(ElementExtend.BytesToHex(record.CLIRTVO_REC.MESSAGE_HEADER.MSGCNT.GetBytes()));
             decimal msgcnt = record.CLIRTVO_REC.MESSAGE_HEADER.MSGCNT;
             Console.WriteLine(msgcnt);
@@ -41,6 +41,11 @@ class Program
             decimal tran_no1 = record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO1;
             Console.WriteLine(tran_no1);
 
+
+            record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO3 = -123.12;
+            Console.WriteLine(ElementExtend.BytesToHex(record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO3.GetBytes()));
+            decimal tran_no3 = record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO3;
+            Console.WriteLine(tran_no3);
         }
     }
 
@@ -54,19 +59,5 @@ class Program
                 PrintElement(child, intent + 1);
             }    
     }
-
-
-    /*
-    static string BytesToHex(byte[] bytes){
-        char[] hexArray = "0123456789ABCDEF".ToCharArray();
-        char[] hexChars = new char[bytes.Length*2];
-        for (int i = 0; i < bytes.Length; i++)
-        {
-            int v = bytes[i] & 0xFF;
-            hexChars[i*2] = hexArray[v >> 4];
-            hexChars[i*2+1] = hexArray[v & 0x0F];
-        }
-        return new string(hexChars);
-    } */
 }
 }

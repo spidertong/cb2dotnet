@@ -22,24 +22,14 @@ namespace cb2dotnet {
         protected abstract T TryParse(string value);
 
         public override void setValue(byte[] bytes, object value){
-            /* 
-            if (value.GetType() != this.valueType)
-            {
-                throw new InvalidCastException($"Can not set member {this.name} to type {value.GetType()}");
-            }
-            //*/
-
-            //if (!typeof(T).IsAssignableFrom(value.GetType()))
-            //{
-            //    throw new InvalidCastException($"Can not set member {this.name} to type {value.GetType()}");
-            //}
-
-            //T val = (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(value);
-            
 
             var array = new byte[this.LengthOfBytes];
-            //setTypedValue((T)value, array);
-            setTypedValue(TryParse(value.ToString()), array);
+
+            if (value is byte[]){   //TODO  Look for a elegent way
+                setTypedValue((T)value, array);   
+            }else {
+                setTypedValue(TryParse(value.ToString()), array);
+            }
             Buffer.BlockCopy(array, 0, bytes, this.Offset, this.LengthOfBytes);
         }
 

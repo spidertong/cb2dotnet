@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text.RegularExpressions;
 
 namespace cb2dotnet {
@@ -93,17 +94,6 @@ namespace cb2dotnet {
         public virtual Data create(){ 
             return new Data(this, null); 
         }
-        
-        /**
-        * helper method for converting the given bytes to a string with
-        * the parent copybook's encoding
-        * 
-        * @param data the data to convert to a string
-        * @return the string value
-        */
-        //public    string getstring(Data data) {
-        //    return new string(data.getBytes(offset, length), settings.getEncoding()); 
-        //}
 
         public override string ToString() {
             //return new string(getSettings().getValues().SPACES.fill(level)) + name + ": '" 
@@ -163,7 +153,7 @@ namespace cb2dotnet {
         public static string BytesToHex(byte[] bytes){
             var input = "";
             for (int i = 0; i < bytes.Length; i++)            {
-                input = input + Convert.ToString(bytes[i], 16);
+                input = input + Convert.ToString(bytes[i], 16).PadLeft(2, '0');
             }
             return input.ToUpper();
         }
@@ -176,6 +166,21 @@ namespace cb2dotnet {
             }
             return bytes;
         }
+
+        public static string ReplaceAt(this string source, int index, char new_char){
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            var chars = source.ToCharArray();
+            chars[index] = new_char;
+            return new string (chars);
+        }
+
+        public static decimal ShiftBy10(this decimal source, int exponent){
+            return ( source * (decimal) BigInteger.Pow(10, exponent) ) ;
+        }
+
     }
 
 }

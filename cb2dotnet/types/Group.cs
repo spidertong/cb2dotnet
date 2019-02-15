@@ -7,7 +7,7 @@ namespace cb2dotnet {
     /**
     * base class for Group.
     */
-    public class Group : Element{
+    public class Group : ElementOf<byte[]>{
     
         public override int LengthOfBytes {get {
             if (this.Children.Contains(null))
@@ -48,6 +48,21 @@ namespace cb2dotnet {
                 Buffer.BlockCopy((byte[])value, this.Offset, bytes, this.Offset, this.LengthOfBytes);
             else
                 throw new NotSupportedException("Cannot set value to a Group instant, unless it's byte to byte copy");
+        }
+
+        protected override byte[] TryParse(string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override byte[] getTypedValue(byte[] bytes)
+        {
+            return bytes;
+        }
+
+        protected override void setTypedValue(byte[] value, byte[] bytes)
+        {
+            Buffer.BlockCopy(value,0, bytes, 0, bytes.Length);
         }
     }
 }
