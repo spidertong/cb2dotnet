@@ -1,12 +1,45 @@
 ﻿using System;
 using System.IO;
 
+
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace cb2dotnet
 {
 class Program
 {
     static void Main(string[] args)
     {
+
+        /* 
+        var source = new CancellationTokenSource();
+        var token = source.Token;
+        token.Register(() => {
+            Console.WriteLine("Token has been canceled.");
+            //token.ThrowIfCancellationRequested();
+            });
+        
+    
+        source.CancelAfter(10 *1000);
+        Console.WriteLine("CancelAfter set to 10 second.");
+
+        var t = Task.Run(() => {
+            Console.WriteLine("Task.Run() is running the action");
+            Thread.Sleep(3 *1000);
+            Console.WriteLine("Task.Run() is going to complete");
+        });
+
+        t.Wait();
+        Console.WriteLine("The line after Tt.Wait();");
+
+        Task.
+         Task.WhenAny(Task.Delay(12*1000, token));
+        Console.WriteLine("The line after Task.Delay()");
+
+        //source.Cancel();
+        return; */
+
         Console.WriteLine("Hello World!");
         using (var stream = File.Open(args[0], FileMode.Open))
         {
@@ -36,15 +69,15 @@ class Program
             decimal msgcnt = record.CLIRTVO_REC.MESSAGE_HEADER.MSGCNT;
             Console.WriteLine(msgcnt);
 
-            record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO1 = 1234;
-            Console.WriteLine(ElementExtend.BytesToHex(record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO1.GetBytes()));
-            decimal tran_no1 = record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO1;
+            record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX[0].BGEN_XXXXX_TRANS_NO1 = 1234;
+            Console.WriteLine(ElementExtend.BytesToHex(record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX[0].BGEN_XXXXX_TRANS_NO1.GetBytes()));
+            decimal tran_no1 = record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX[0].BGEN_XXXXX_TRANS_NO1;
             Console.WriteLine(tran_no1);
 
 
-            record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO3 = -123.12;
-            Console.WriteLine(ElementExtend.BytesToHex(record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO3.GetBytes()));
-            decimal tran_no3 = record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX.BGEN_XXXXX_TRANS_NO3;
+            record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX[1].BGEN_XXXXX_TRANS_NO3 = -123.12;
+            Console.WriteLine(ElementExtend.BytesToHex(record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX[1].BGEN_XXXXX_TRANS_NO3.GetBytes()));
+            decimal tran_no3 = record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX[1].BGEN_XXXXX_TRANS_NO3;
             Console.WriteLine(tran_no3);
         }
     }

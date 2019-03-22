@@ -11,10 +11,10 @@ namespace cb2dotnet{
 
 	public class Settings {
 
-		public string Encoding {get;set;} = ("file.encoding");
+		public string Encoding {get;set;} = "IBM037";//("file.encoding");
 		public bool isLittleEndian {get;set;} = false;
-		public String floatConversion {get;set;} = "net.sf.cb2java.copybook.floating.IEEE754";
-		public SignPosition signPosition {get;set;} = SignPosition.TRAILING;
+		//public String floatConversion {get;set;} = "net.sf.cb2java.copybook.floating.IEEE754";
+		//public SignPosition signPosition {get;set;} = SignPosition.TRAILING;
 		public int columnStart {get;set;} = 6;
 		public int columnEnd {get;set;} = 72;
 		//public Values values {get;set;} = new Values();
@@ -29,10 +29,12 @@ namespace cb2dotnet{
 
 				DEFAULT.Encoding 		= dict.ContainsKey("encoding") ? dict["encoding"] : DEFAULT.Encoding;
 				DEFAULT.isLittleEndian 	= dict.ContainsKey("little-endian") ? bool.Parse(dict["little-endian"]) : DEFAULT.isLittleEndian;
-				DEFAULT.floatConversion = dict.ContainsKey("float-conversion") ? dict["float-conversion"] : DEFAULT.floatConversion;
+				//DEFAULT.floatConversion = dict.ContainsKey("float-conversion") ? dict["float-conversion"] : DEFAULT.floatConversion;
+				/* 
 				DEFAULT.signPosition	= dict.ContainsKey("default-sign-position") 
 										? (dict["default-sign-position"] == "leading" ? SignPosition.LEADING : SignPosition.TRAILING)
-										: DEFAULT.signPosition;
+										: DEFAULT.signPosition;//*/
+
 				DEFAULT.columnStart 	= dict.ContainsKey("column.start") ? int.Parse(dict["column.start"]) : DEFAULT.columnStart;
 				DEFAULT.columnEnd 		= dict.ContainsKey("column.end") ? int.Parse(dict["column.end"]) : DEFAULT.columnEnd;
 			}
@@ -42,8 +44,14 @@ namespace cb2dotnet{
 
 		static private Dictionary<string, string> getSetting(string path) {
 			var result = new Dictionary<string, string>();
-			foreach (var row in File.ReadAllLines(path))
+
+			if (File.Exists(path)) {
+				foreach (var row in File.ReadAllLines(path))
   					result.Add(row.Split('=')[0], string.Join("=",row.Split('=').Skip(1).ToArray()));
+			}
+			else{
+				Console.WriteLine($"{path} not found.");
+			}
 
 			return result;
 		}

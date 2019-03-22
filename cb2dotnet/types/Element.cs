@@ -16,6 +16,28 @@ namespace cb2dotnet {
         public      int level {get; protected set;}
         /** how many times the element occurs in the application data */
         public      int occurs {get; protected set;}
+        public      int occursIndex;
+
+        public abstract Element CloneInstance();
+
+        public Element CopyAsNext(Element parent){
+            var clone = this.CloneInstance();
+            clone.Previous = parent.GetLastChildren();
+
+            if (parent == this.Parent)
+                parent.AddChild(clone, parent.Children.IndexOf(this) + 1);
+            else
+                parent.AddChild(clone);
+            
+            foreach (var this_child in this.Children.ToArray()){
+                var end = clone.GetLastChildren();
+                var clone_child = this_child.CopyAsNext(clone);
+                clone_child.Previous = end;
+                //g.AddChild(clone_child);
+            }
+            return clone;
+        }
+
         /** the absolute position of the where this item starts in data */
         public      int position {get; set;}
         /** the instance that represents the data that defines this element */
@@ -28,9 +50,7 @@ namespace cb2dotnet {
             set { setting_ = value;}
         }
 
-        /** the parent of this element */
-        //public  Group parent {get;set;}
-
+        /*
         private Group parent = null;
         public  Group Parent {
             get {
@@ -39,7 +59,14 @@ namespace cb2dotnet {
             set{
                 this.parent = (Group) value;
                 value.Children.Add(this);    
-            }}
+            }} */
+        public Group Parent = null;
+        public void AddChild(Element child, int index = -1){
+            index = index == -1 ? this.Children.Count : index;
+            this.Children.Insert(index, child);
+            child.Parent = (Group)this;
+        }
+
         public Element Previous;
 
 

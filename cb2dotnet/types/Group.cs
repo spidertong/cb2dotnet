@@ -9,6 +9,10 @@ namespace cb2dotnet {
     */
     public class Group : ElementOf<byte[]>{
     
+        public override Element CloneInstance(){
+            return new Group(this.name, this.level, this.occurs, this.Redefines);
+        }
+
         public override int LengthOfBytes {get {
             if (this.Children.Contains(null))
             {
@@ -19,7 +23,7 @@ namespace cb2dotnet {
                         .Select(child => child.Offset + child.LengthOfBytes)
                         .Max()
                 -  this.Offset;
-        }}
+        }}     
 
         public string Redefines;
 
@@ -37,6 +41,7 @@ namespace cb2dotnet {
             this.Redefines = redefines;
         }
 
+        /*
         public override object getValue(byte[] bytes){
 
             throw new NotSupportedException("Cannot get value from a Group instant.");
@@ -48,7 +53,7 @@ namespace cb2dotnet {
                 Buffer.BlockCopy((byte[])value, this.Offset, bytes, this.Offset, this.LengthOfBytes);
             else
                 throw new NotSupportedException("Cannot set value to a Group instant, unless it's byte to byte copy");
-        }
+        }*/
 
         protected override byte[] TryParse(string value)
         {

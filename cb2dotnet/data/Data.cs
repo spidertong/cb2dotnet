@@ -22,6 +22,10 @@ namespace cb2dotnet{
         
         public string Name {get {return definition.name;}}
 
+        public override string ToString(){
+            return this.definition.getValue(this.bytes).ToString();
+        }
+
         public byte[] GetBytes() {
             var result = new byte[definition.LengthOfBytes];
             Buffer.BlockCopy(bytes, definition.Offset, result, 0, definition.LengthOfBytes );
@@ -47,12 +51,23 @@ namespace cb2dotnet{
         public override bool TryGetMember (System.Dynamic.GetMemberBinder binder, out object result){
             var child = definition.Children
                         .Where(def => def.name == binder.Name.Replace("_", "-"))
-                        .DefaultIfEmpty(null)
-                        .SingleOrDefault();
+                        //.DefaultIfEmpty(null)
+                        //.SingleOrDefault();
+                        .ToArray();
 
+            /*
             if (child != null)
             {
                 result = new Data(child, this);
+                return true;
+            }*/
+            if (child.Count() == 1)
+            {
+                result = new Data(child[0], this);
+                return true;
+            }
+            if (child.Count() > 1) {
+                result = child.Select(fmt => new Data(fmt, this)).ToArray();
                 return true;
             }
             result = null;

@@ -6,6 +6,11 @@ namespace cb2dotnet
 {
     public class AlphaNumeric : ElementOf<string> 
     {
+
+        public override Element CloneInstance(){
+            return new AlphaNumeric(this.name, this.level, this.occurs, this.Picture);
+        }
+
         public String Picture { get; protected set;}
 
         public override int LengthOfBytes {get {

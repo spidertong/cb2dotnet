@@ -10,8 +10,6 @@ namespace cb2dotnet {
     {
         public Item document;
         private Item current;
-
-        //private Values values = new Values();
     
         private Parser parser;
         private Settings settings;
@@ -24,12 +22,11 @@ namespace cb2dotnet {
         * @param parser sablecc parser instance 
         */
         public CopybookAnalyzer(String copyBookName
-                        , Parser parser
-                        , Settings settings
-                        )
+                                , Parser parser
+                                , Settings settings
+                                )
         {
-            document = new Item(//values, 
-                                null, settings);
+            document = new Item(null, settings);
             document.name = copyBookName;
             current = document;
             this.parser = parser;
@@ -38,7 +35,7 @@ namespace cb2dotnet {
 
         public Group getDocument()
         {
-            return (Group) document.getElement();
+            return (Group) document.Element;
 	    }	
 
         /** 
@@ -53,11 +50,9 @@ namespace cb2dotnet {
         * exit root element, save XML as file 
         */
         public override void OutARecordDescription(ARecordDescription node)
-        //public override void OutARecordDescription(ARecordDescription node)
         {
             // TODO end
             base.OutARecordDescription(node);
-            Console.WriteLine("outARecordDescription");
             //walkTree(document);
         }
 
@@ -68,7 +63,6 @@ namespace cb2dotnet {
         public override void InAItem(AItem node)
         {
             Item prevItem = current;
-            //current = new Item(values, false, settings);
             current = new Item(prevItem, settings);
             current.level = Int32.Parse(node.GetNumberNot88().ToString().Trim());
             current.name = node.GetDataNameOrFiller().ToString().Trim();
@@ -83,7 +77,7 @@ namespace cb2dotnet {
         public override void OutAItem(AItem node)
         {
             //current.createElement();
-            Console.WriteLine($"{current.level} {current.name} occurs[{current.occurs}] picture[{current.picture}] isAlpha[{current.isAlpha}] redefines[{current.redefines}]");
+            //Console.WriteLine($"{current.level} {current.name} occurs[{current.occurs}] picture[{current.picture}] isAlpha[{current.isAlpha}] redefines[{current.redefines}]");
         }
 
         public override void InARedefinesClause(ARedefinesClause node)
@@ -91,7 +85,6 @@ namespace cb2dotnet {
             //String dataName = node.GetDataName().getText();
             //current.redefines = dataName;
             current.redefines = node.GetDataName().Text;
-            
         }
 
         public override void InAFixedOccursFixedOrVariable(AFixedOccursFixedOrVariable node)
@@ -102,7 +95,6 @@ namespace cb2dotnet {
         public override void InAVariableOccursFixedOrVariable(AVariableOccursFixedOrVariable node) 
         {
             current.occurs = Int32.Parse(node.GetNumber().ToString().Trim());
-            //current.dependsOn = node.GetDataName().getText();
             current.dependsOn = node.GetDataName().Text;
         }
 
@@ -167,13 +159,13 @@ namespace cb2dotnet {
         public override void InALeadingLeadingOrTrailing(ALeadingLeadingOrTrailing node)
         {
             //current.getSettings().setSignPosition(SignPosition.LEADING);
-            current.SignPosition = SignPosition.LEADING;
+            //current.SignPosition = SignPosition.LEADING;
         }
 
         public override void InATrailingLeadingOrTrailing(ATrailingLeadingOrTrailing node)
         {
             //current.getSettings().setSignPosition(SignPosition.TRAILING);
-            current.SignPosition = SignPosition.TRAILING;
+            //current.SignPosition = SignPosition.TRAILING;
         }
 
         //======================= USAGE CLAUSE ==========================

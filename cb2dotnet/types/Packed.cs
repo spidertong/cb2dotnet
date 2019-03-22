@@ -11,7 +11,11 @@ namespace cb2dotnet
             return (base.NumberOfDigits / 2) + 1;
         } }
 
-        public Packed(String name, int level, int occurs, String picture, SignPosition signPosition)
+        public override Element CloneInstance(){
+            return new Packed(this.name, this.level, this.occurs, this.Picture);
+        }
+
+        public Packed(String name, int level, int occurs, String picture)
         : base(name, level, occurs, picture) 
         {}
 

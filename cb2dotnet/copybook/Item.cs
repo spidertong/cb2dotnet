@@ -28,14 +28,13 @@ namespace cb2dotnet {
             //this.document = document;
             this.document = this.previous == null;
             this.settings = settings;
-            this.SignPosition = settings.signPosition;
+            //this.SignPosition = settings.signPosition;
         }
 
         public string name;
         public int level;
         Item parent;
         public Item previous;
-        int length;
         
         public readonly List<Item> children = new List<Item>();
         
@@ -46,13 +45,16 @@ namespace cb2dotnet {
         
         public bool isAlpha;
         public bool signSeparate;
-        public SignPosition SignPosition;
         
         public string picture;
-        //Value value;
         public Usage usage;
         
         private Element element;
+        public Element Element { get {
+            if (element == null) 
+                createElement();
+            return element;
+        } }
 
         public void setParent(Item candidate)
         {
@@ -102,10 +104,6 @@ namespace cb2dotnet {
                     createDecimal();
                 }
             }
-            
-            //if (value != null) {
-            //    element.setValue(value);
-            //}
         }
         
         private void createDocument()
@@ -131,7 +129,7 @@ namespace cb2dotnet {
         
         private void createPacked()
         {
-            element = new Packed(name, level, occurs, picture, SignPosition);
+            element = new Packed(name, level, occurs, picture);
         }
         
         private void createSignedSeparate()
@@ -142,7 +140,7 @@ namespace cb2dotnet {
         private void createDecimal()
         {
             //element = new Decimal(name, level, occurs, picture, signPosition);
-            element = new Zoned(name, level, occurs, picture, SignPosition);
+            element = new Zoned(name, level, occurs, picture);
         }
         
         private void createAlphaNumeric()
@@ -158,14 +156,6 @@ namespace cb2dotnet {
         private void createDoubleFloat()
         {
             //element = new Floating(name, level, occurs, Conversion.DOUBLE);
-        }
-        
-        public Element getElement()
-        {
-            if (element == null) 
-                createElement();
-            
-            return element;
         }
     }
 

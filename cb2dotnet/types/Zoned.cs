@@ -9,16 +9,18 @@ namespace cb2dotnet
 {
     public class Zoned : Numeric{
         
-        SignPosition SignPosition;
 
         public override int LengthOfBytes { get{   
             return this.NumberOfDigits;
         } }
 
-        public Zoned(String name, int level, int occurs, String picture, SignPosition signPosition)  // :base(name, level, occurs, picture, signPosition)
-        :base(name, level, occurs, picture)  {
-            this.SignPosition = signPosition;
+        public override Element CloneInstance(){
+            return new Zoned(this.name, this.level, this.occurs, this.Picture);
         }
+
+        public Zoned(String name, int level, int occurs, String picture)  // :base(name, level, occurs, picture, signPosition)
+        :base(name, level, occurs, picture)  
+        {}
         
 
         /*
