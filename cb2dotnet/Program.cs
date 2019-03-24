@@ -84,13 +84,20 @@ class Program
 
     static void PrintElement(Element e, int intent){
 
-        Console.Write(new String('\t', intent) );
+        Console.Write(e.Id.Substring(24) + ":");
+        Console.Write(e.Previous != null ? e.Previous.Id.Substring(24) : "            ");
+        for (int i = 0; i < intent; i++)
+        {
+            Console.Write("    ");    
+        }
+        
+        //Console.WriteLine($"{e.level} {e.name} {e.GetType()} ");
         Console.WriteLine($"{e.level} {e.name} {e.GetType()} Offset[{e.Offset}] LengthOfBytes[{e.LengthOfBytes}] " + (e is Group ? $"redefines[{((Group)e).Redefines}]" : ""));
 
-            foreach (var child in e.Children)
-            {
-                PrintElement(child, intent + 1);
-            }    
+        foreach (var child in e.Children)
+        {
+            PrintElement(child, intent + 1);
+        }    
     }
 }
 }

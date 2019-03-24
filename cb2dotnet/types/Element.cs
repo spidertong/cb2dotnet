@@ -20,18 +20,23 @@ namespace cb2dotnet {
 
         public abstract Element CloneInstance();
 
-        public Element CopyAsNext(Element parent){
+        public Element CopyToNext(Element parent){
             var clone = this.CloneInstance();
-            clone.Previous = parent.GetLastChildren();
+            
 
-            if (parent == this.Parent)
+            if (parent == this.Parent) {
+                clone.Previous = this.GetLastChildren();
                 parent.AddChild(clone, parent.Children.IndexOf(this) + 1);
-            else
+            }
+            else {
+                clone.Previous = parent.GetLastChildren();
                 parent.AddChild(clone);
+            }
+                
             
             foreach (var this_child in this.Children.ToArray()){
                 var end = clone.GetLastChildren();
-                var clone_child = this_child.CopyAsNext(clone);
+                var clone_child = this_child.CopyToNext(clone);
                 clone_child.Previous = end;
                 //g.AddChild(clone_child);
             }
@@ -110,8 +115,10 @@ namespace cb2dotnet {
             this.name = name;
             this.level = level;
             this.occurs = occurs;
+            this.Id = System.Guid.NewGuid().ToString("D");
         }
         
+        public string Id {get; private set;}
         
         /**
         * creates a new empty Data instance for this element

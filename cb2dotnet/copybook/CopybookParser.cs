@@ -108,10 +108,6 @@ namespace cb2dotnet {
             }
 
             Console.WriteLine($"walkOccurs {current.name} completed foreach.");
-            if (current.name == "test")
-            {
-                Console.WriteLine($"walkOccurs test completed foreach.");
-            }
             if (current.occurs < 2){
                 return current;
             }
@@ -120,7 +116,7 @@ namespace cb2dotnet {
             Element clone = current;
             for (int i = 1; i < current.occurs; i++){
                 Console.WriteLine($"{i}");
-                clone = clone.CopyAsNext(current.Parent);
+                clone = clone.CopyToNext(current.Parent);
                 clone.occursIndex = 1 + i;
                 Console.WriteLine($"{i} completed");
             }

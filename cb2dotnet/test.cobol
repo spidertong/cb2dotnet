@@ -7,9 +7,9 @@
             05 MSGID                                PIC  X(010).
         03 MESSAGE-DATA.
             05 BGEN-XXXXX      OCCURS 2.
-                07 BGEN-XXXXX-ADDRTYPE              PIC  X(00001).
-                07 BGEN-XXXXX-BIRTHP                PIC  X(00020).
-                07 BGEN-XXXXX-CLTDOBX               PIC  9(008).
+                07 BGEN-XXXXX-ADDRTYPE         PIC  X(00001).
+                07 BGEN-XXXXX-BIRTHP           PIC  X(00020) OCCURS 2.
+                07 BGEN-XXXXX-CLTDOBX          PIC  9(008).
                 07 FILLER REDEFINES BGEN-XXXXX-CLTDOBX.
                     09 BGEN-XXXXX-CLTDOBX-CCYY      PIC  9(004).
                     09 BGEN-XXXXX-CLTDOBX-MM        PIC  9(002).
