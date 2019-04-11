@@ -22,8 +22,8 @@ namespace cb2dotnet{
         public static String preProcess(StreamReader reader, Settings settings) {
             
             // TODO: figure out a way to pass copybook specific settings for non-default margins treated as comment.
-            int columnStart = settings.columnStart;
-            int columnEnd = settings.columnEnd;
+            int columnStart = settings.ColumnStart;
+            int columnEnd = settings.ColumnEnd;
 
             var sb = new StringBuilder();
 

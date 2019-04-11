@@ -23,7 +23,7 @@ namespace cb2dotnet{
         public string Name {get {return definition.name;}}
 
         public override string ToString(){
-            return this.definition.getValue(this.bytes).ToString();
+            return this.definition.getValue(this.bytes, this.Settings).ToString();
         }
 
         public byte[] GetBytes() {
@@ -78,7 +78,7 @@ namespace cb2dotnet{
         {
             if (binder.Type == definition.valueType)
             {
-                result = definition.getValue(this.bytes);
+                result = definition.getValue(this.bytes, this.Settings);
                 return true;
             }
             result = null;
@@ -96,11 +96,23 @@ namespace cb2dotnet{
 
             if (child != null)
             {
-                child.setValue(this.bytes, value);
+                child.setValue(this.bytes, value, this.Settings);
                 return true;
             }
             return false;
         } 
+
+        public Dictionary<string, string> Settings;
+        public Data WithCCSID(string EncodingName){
+            this.Settings = this.Settings ?? new Dictionary<string,string>();
+            this.Settings["TargetEncoding"] = EncodingName;
+            return this;
+        }
+        public Data WithCCSID(int CodepageNumber){
+            this.Settings = this.Settings ?? new Dictionary<string,string>();
+            this.Settings["TargetEncoding"] = CodepageNumber.ToString();
+            return this;
+        }
         
     }
 

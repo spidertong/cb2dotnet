@@ -60,12 +60,12 @@ namespace cb2dotnet {
             throw new NotImplementedException();
         }
 
-        protected override byte[] getTypedValue(byte[] bytes)
+        protected override byte[] getTypedValue(byte[] bytes, Dictionary<string, string> settings)
         {
             return bytes;
         }
 
-        protected override void setTypedValue(byte[] value, byte[] bytes)
+        protected override void setTypedValue(byte[] value, byte[] bytes, Dictionary<string, string> settings)
         {
             Buffer.BlockCopy(value,0, bytes, 0, bytes.Length);
         }

@@ -46,13 +46,12 @@ namespace cb2dotnet {
         /** the absolute position of the where this item starts in data */
         public      int position {get; set;}
         /** the instance that represents the data that defines this element */
-        private Settings setting_;
-        public      Settings settings {
-            get { return setting_ != null ?  settings
-                       : Parent != null ? Parent.settings
+        private Settings settings;
+        public      Settings Settings {
+            get { return settings != null   ?  settings
                        : Settings.Default()
                        ;}
-            set { setting_ = value;}
+            set { settings = value;}
         }
 
         /*
@@ -96,12 +95,12 @@ namespace cb2dotnet {
         /*
         * Expected the whole, original byte array of the Data will in passed in as parameter. 
         */
-        public abstract    object getValue(byte[] array);
+        public abstract    object getValue(byte[] array, Dictionary<string, string> settings);
 
         /*
         * Expected the whole, original byte array of the Data will in passed in as parameter. 
         */
-        public abstract    void   setValue(byte[] bytes, object value);
+        public abstract    void   setValue(byte[] bytes, object value, Dictionary<string, string> settings);
 
         
         /**

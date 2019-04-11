@@ -8,27 +8,14 @@ namespace cb2dotnet {
     public class Item
     {
         public bool document {get; protected set;}
-        
-        //public Values values {get; protected set;}
 
-
-        public Settings settings {get;protected set;}
-        
         /**
         * @param analyzer
         */
-        public Item( //Values values,   
-            Item previous, 
-            //bool document, 
-            Settings settings
-            )
+        public Item(Item previous)
         {
-            //this.values = values;
             this.previous = previous;
-            //this.document = document;
             this.document = this.previous == null;
-            this.settings = settings;
-            //this.SignPosition = settings.signPosition;
         }
 
         public string name;

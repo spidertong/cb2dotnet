@@ -11,35 +11,6 @@ class Program
 {
     static void Main(string[] args)
     {
-
-        /* 
-        var source = new CancellationTokenSource();
-        var token = source.Token;
-        token.Register(() => {
-            Console.WriteLine("Token has been canceled.");
-            //token.ThrowIfCancellationRequested();
-            });
-        
-    
-        source.CancelAfter(10 *1000);
-        Console.WriteLine("CancelAfter set to 10 second.");
-
-        var t = Task.Run(() => {
-            Console.WriteLine("Task.Run() is running the action");
-            Thread.Sleep(3 *1000);
-            Console.WriteLine("Task.Run() is going to complete");
-        });
-
-        t.Wait();
-        Console.WriteLine("The line after Tt.Wait();");
-
-        Task.
-         Task.WhenAny(Task.Delay(12*1000, token));
-        Console.WriteLine("The line after Task.Delay()");
-
-        //source.Cancel();
-        return; */
-
         Console.WriteLine("Hello World!");
         using (var stream = File.Open(args[0], FileMode.Open))
         {

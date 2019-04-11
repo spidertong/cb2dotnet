@@ -11,32 +11,27 @@ namespace cb2dotnet{
 
 	public class Settings {
 
-		public string Encoding {get;set;} = "IBM037";//("file.encoding");
-		public bool isLittleEndian {get;set;} = false;
-		//public String floatConversion {get;set;} = "net.sf.cb2java.copybook.floating.IEEE754";
-		//public SignPosition signPosition {get;set;} = SignPosition.TRAILING;
-		public int columnStart {get;set;} = 6;
-		public int columnEnd {get;set;} = 72;
-		//public Values values {get;set;} = new Values();
+		public Encoding TargetEncoding {get;set;} = System.Text.Encoding.GetEncoding("IBM037");
+		public bool IsLittleEndian {get;set;} = false;
+
+		public int ColumnStart {get;set;} = 6;
+		public int ColumnEnd {get;set;} = 72;
 
 		static Settings DEFAULT;
 		public static Settings Default(string path = "copybook.props") 
 		{
 			if(DEFAULT == null) {
+				Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
 				DEFAULT = new Settings();
 
 				var dict = getSetting(path);
 
-				DEFAULT.Encoding 		= dict.ContainsKey("encoding") ? dict["encoding"] : DEFAULT.Encoding;
-				DEFAULT.isLittleEndian 	= dict.ContainsKey("little-endian") ? bool.Parse(dict["little-endian"]) : DEFAULT.isLittleEndian;
-				//DEFAULT.floatConversion = dict.ContainsKey("float-conversion") ? dict["float-conversion"] : DEFAULT.floatConversion;
-				/* 
-				DEFAULT.signPosition	= dict.ContainsKey("default-sign-position") 
-										? (dict["default-sign-position"] == "leading" ? SignPosition.LEADING : SignPosition.TRAILING)
-										: DEFAULT.signPosition;//*/
+				DEFAULT.TargetEncoding 		= dict.ContainsKey("target-encoding") ? Encoding.GetEncoding(dict["target-encoding"]) : DEFAULT.TargetEncoding;
+				DEFAULT.IsLittleEndian 	= dict.ContainsKey("little-endian") ? bool.Parse(dict["little-endian"]) : DEFAULT.IsLittleEndian;
 
-				DEFAULT.columnStart 	= dict.ContainsKey("column.start") ? int.Parse(dict["column.start"]) : DEFAULT.columnStart;
-				DEFAULT.columnEnd 		= dict.ContainsKey("column.end") ? int.Parse(dict["column.end"]) : DEFAULT.columnEnd;
+				DEFAULT.ColumnStart 	= dict.ContainsKey("column.start") ? int.Parse(dict["column.start"]) : DEFAULT.ColumnStart;
+				DEFAULT.ColumnEnd 		= dict.ContainsKey("column.end") ? int.Parse(dict["column.end"]) : DEFAULT.ColumnEnd;
 			}
 			return DEFAULT;
 		}
@@ -61,27 +56,19 @@ namespace cb2dotnet{
 		/**
 		* helper method for converting the given bytes to a string with encoding
 		*/
-		public static String GetString( this Settings  source, byte[] data) {
-			/* Assume that data is encoded by the Encoding in Settings.
-			 */
-			///UNDONE use ICU4C
-			var src_encoding = System.Text.Encoding.GetEncoding(source.Encoding);
-			var sys_encoding = System.Text.Encoding.Default;
-			var system_byte = Encoding.Convert(src_encoding, sys_encoding, data);
-			return sys_encoding.GetString(system_byte);
+
+		public static byte[] ConvertToBytes(this Encoding target, string s){
+			return target.ConvertToBytes(s, System.Text.Encoding.Default);
 		}
-		
-		/**
-		* converts a String to a byte array based on the current encoding
-		*/
-		public static byte[] getBytes(this Settings source, String s) {
-
-			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-			var src_encoding = System.Text.Encoding.GetEncoding(source.Encoding);
-			var sys_encoding = System.Text.Encoding.Default;
-			var system_byte = sys_encoding.GetBytes(s);
-			return Encoding.Convert(sys_encoding, src_encoding, system_byte);
+		public static byte[] ConvertToBytes(this Encoding targetEncoding, String s, Encoding dotnetEncoding ) {
+			return Encoding.Convert(dotnetEncoding, targetEncoding, dotnetEncoding.GetBytes(s));
+		}
+		public static string ConvertToString(this Encoding targetEncoding, byte[] data){
+			return targetEncoding.ConvertToString(data, System.Text.Encoding.Default);
+		}
+		public static string ConvertToString(this Encoding targetEncoding, byte[] data, Encoding dotnetEncoding ){
+			var system_byte = Encoding.Convert(targetEncoding, dotnetEncoding, data);
+			return dotnetEncoding.GetString(system_byte);
 		}
 	}
 	

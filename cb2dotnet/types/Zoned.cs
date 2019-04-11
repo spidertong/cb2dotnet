@@ -26,7 +26,7 @@ namespace cb2dotnet
         /*
          * We parse this Zoned-Decimal format by Hex Value
          */
-        protected override Decimal getTypedValue(byte[] bytes){
+        protected override Decimal getTypedValue(byte[] bytes, Dictionary<string, string> settings){
 
             string input = ElementExtend.BytesToHex(bytes);
 
@@ -40,7 +40,7 @@ namespace cb2dotnet
         
 
 
-        protected override void setTypedValue(Decimal value, byte[] bytes){
+        protected override void setTypedValue(Decimal value, byte[] bytes, Dictionary<string, string> settings){
             
             // get integer part and fractional part
             var integal  = (UInt64) Math.Abs(Math.Truncate(value));

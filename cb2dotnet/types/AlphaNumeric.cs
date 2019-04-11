@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace cb2dotnet
 {
@@ -21,23 +22,27 @@ namespace cb2dotnet
             return value;
         }
 
-        public AlphaNumeric(string name, int level, int occurs, string picture)//(string name, int length, int level, int occurs) 
+        public AlphaNumeric(string name, int level, int occurs, string picture)
         : base(name, level, occurs) 
         { 
             this.Picture = picture.ToUpper();
         }
-        
-        protected override string getTypedValue(byte[] bytes){
-            return this.settings.GetString(bytes);
+
+        protected override string getTypedValue(byte[] bytes, Dictionary<string, string> settings){
+            var target_encoding = settings != null && settings.ContainsKey("TargetEncoding")
+                                ? Encoding.GetEncoding(settings["TargetEncoding"])
+                                : Settings.TargetEncoding;
+            return target_encoding.ConvertToString(bytes);
         }
-        protected override void setTypedValue(string value, byte[] bytes){
-            var content = this.settings.getBytes(value);
 
-            // Prefill space
-            var spaces = this.settings.getBytes(new string(' ', bytes.Length) );
-            Buffer.BlockCopy(spaces, 0, bytes, 0, bytes.Length);
+        protected override void setTypedValue(string value, byte[] bytes, Dictionary<string, string> settings){
+            
+            var padded_value   = value.PadRight(bytes.Length);
+            var target_encoding = settings != null && settings.ContainsKey("TargetEncoding") 
+                                ? Encoding.GetEncoding(settings["TargetEncoding"])
+                                : Settings.TargetEncoding;
 
-            // Fill string value
+            var content = target_encoding.ConvertToBytes(padded_value);
             Buffer.BlockCopy(content, 0, bytes, 0, content.Length < bytes.Length ? content.Length : bytes.Length);
         }
     }

@@ -18,10 +18,7 @@ namespace cb2dotnet {
     * working with data.
     */
     public class CopybookParser
-    {
-        
-        private static bool debug = false;
-        
+    {   
         /**
         * Parses a copybook definition and returns a Copybook instance
         * 
@@ -30,8 +27,6 @@ namespace cb2dotnet {
         * 
         * @return a copybook instance containing the parse tree for the definition
         */
-        
-        //public static Copybook parse(String name, Stream stream)
         public static Group parse(String name, Stream stream)
         {        
             return parse(name, new StreamReader(stream));
@@ -64,7 +59,7 @@ namespace cb2dotnet {
 
             Parser parser = new Parser(lexer);
 
-            CopybookAnalyzer copyBookAnalyzer = new CopybookAnalyzer(name, parser, settings);
+            CopybookAnalyzer copyBookAnalyzer = new CopybookAnalyzer(name, parser);
             Start ast;
             try {
                 ast = parser.Parse();
@@ -88,7 +83,6 @@ namespace cb2dotnet {
             Element previousElement = null;
             foreach (var childItem in item.children)
             {
-                //childItem.Element.Parent = (Group) item.Element;
                 item.Element.AddChild(childItem.Element);
                 childItem.Element.Previous = childItem.previous.Element;
                 childItem.walkTree(document);

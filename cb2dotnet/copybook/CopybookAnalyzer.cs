@@ -12,7 +12,6 @@ namespace cb2dotnet {
         private Item current;
     
         private Parser parser;
-        private Settings settings;
 
         /**
         * Creates a new instance with the given parser and
@@ -23,14 +22,12 @@ namespace cb2dotnet {
         */
         public CopybookAnalyzer(String copyBookName
                                 , Parser parser
-                                , Settings settings
                                 )
         {
-            document = new Item(null, settings);
+            document = new Item(null);
             document.name = copyBookName;
             current = document;
             this.parser = parser;
-            this.settings = settings;
         }
 
         public Group getDocument()
@@ -63,7 +60,7 @@ namespace cb2dotnet {
         public override void InAItem(AItem node)
         {
             Item prevItem = current;
-            current = new Item(prevItem, settings);
+            current = new Item(prevItem);
             current.level = Int32.Parse(node.GetNumberNot88().ToString().Trim());
             current.name = node.GetDataNameOrFiller().ToString().Trim();
             
