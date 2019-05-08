@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-
-
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,6 +49,9 @@ class Program
             Console.WriteLine(ElementExtend.BytesToHex(record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX[1].BGEN_XXXXX_TRANS_NO3.GetBytes()));
             decimal tran_no3 = record.CLIRTVO_REC.MESSAGE_DATA.BGEN_XXXXX[1].BGEN_XXXXX_TRANS_NO3;
             Console.WriteLine(tran_no3);
+
+
+            //record.CLIRTVO_REC.MESSAGE_HEADER.MSGIDA = Encoding.UTF32.GetBytes("香港湾仔");
         }
     }
 

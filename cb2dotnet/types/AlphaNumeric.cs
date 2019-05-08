@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using com.ibm.as400.access;
 
 namespace cb2dotnet
 {
@@ -28,14 +29,25 @@ namespace cb2dotnet
             this.Picture = picture.ToUpper();
         }
 
+        /*
         protected override string getTypedValue(byte[] bytes, Dictionary<string, string> settings){
+            //
+            // After adopting JT400 to .Net world :
+            //  Encoding.RegisterProvider(JTEncodingProvider.Instance);
+            // This solutio will be better.
+            //
             var target_encoding = settings != null && settings.ContainsKey("TargetEncoding")
                                 ? Encoding.GetEncoding(settings["TargetEncoding"])
                                 : Settings.TargetEncoding;
             return target_encoding.ConvertToString(bytes);
         }
-
         protected override void setTypedValue(string value, byte[] bytes, Dictionary<string, string> settings){
+
+            //
+            // After adopting JT400 to .Net world :
+            //  Encoding.RegisterProvider(JTEncodingProvider.Instance);
+            // This solutio will be better.
+            //
             
             var padded_value   = value.PadRight(bytes.Length);
             var target_encoding = settings != null && settings.ContainsKey("TargetEncoding") 
@@ -44,6 +56,30 @@ namespace cb2dotnet
 
             var content = target_encoding.ConvertToBytes(padded_value);
             Buffer.BlockCopy(content, 0, bytes, 0, content.Length < bytes.Length ? content.Length : bytes.Length);
+        } */
+
+        protected AS400Text AS400Text;
+        protected override string getTypedValue(byte[] bytes, Dictionary<string, string> settings){
+            if (AS400Text == null && (settings == null || !settings.ContainsKey("TargetEncoding")) ){
+                return Settings.TargetEncoding.ConvertToString(bytes);
+            } 
+            else{
+                AS400Text = AS400Text ?? new com.ibm.as400.access.AS400Text(bytes.Length, int.Parse(settings["TargetEncoding"]));
+                return AS400Text.toObject(bytes).ToString();
+            }
+        }
+        protected override void setTypedValue(string value, byte[] bytes, Dictionary<string, string> settings){
+            var padded_value   = value.PadRight(bytes.Length);
+            byte[] content;
+            if (AS400Text == null && (settings == null || !settings.ContainsKey("TargetEncoding")) ){
+                content = Settings.TargetEncoding.ConvertToBytes(padded_value);
+            } 
+            else{
+                AS400Text = AS400Text ?? new com.ibm.as400.access.AS400Text(bytes.Length, int.Parse(settings["TargetEncoding"]));
+                content = AS400Text.toBytes(value);
+            }
+            Buffer.BlockCopy(content, 0, bytes, 0, content.Length < bytes.Length ? content.Length : bytes.Length);
+
         }
     }
 }
