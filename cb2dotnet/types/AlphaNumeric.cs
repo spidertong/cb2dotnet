@@ -60,15 +60,19 @@ namespace cb2dotnet
 
         protected AS400Text AS400Text;
         protected override string getTypedValue(byte[] bytes, Dictionary<string, string> settings){
-            if (AS400Text == null && (settings == null || !settings.ContainsKey("TargetEncoding")) ){
+            /*if (AS400Text == null && (settings == null || !settings.ContainsKey("TargetEncoding")) ){
                 return Settings.TargetEncoding.ConvertToString(bytes);
             } 
             else{
                 AS400Text = AS400Text ?? new com.ibm.as400.access.AS400Text(bytes.Length, int.Parse(settings["TargetEncoding"]));
                 return AS400Text.toObject(bytes).ToString();
-            }
+            } */
+
+            AS400Text = AS400Text ?? new com.ibm.as400.access.AS400Text(bytes.Length, Settings.Default().TargetEncoding);
+            return AS400Text.toObject(bytes).ToString();
         }
         protected override void setTypedValue(string value, byte[] bytes, Dictionary<string, string> settings){
+            /*
             var padded_value   = value.PadRight(bytes.Length);
             byte[] content;
             if (AS400Text == null && (settings == null || !settings.ContainsKey("TargetEncoding")) ){
@@ -79,7 +83,11 @@ namespace cb2dotnet
                 content = AS400Text.toBytes(value);
             }
             Buffer.BlockCopy(content, 0, bytes, 0, content.Length < bytes.Length ? content.Length : bytes.Length);
-
+            */
+            byte[] content;
+            AS400Text = AS400Text ?? new com.ibm.as400.access.AS400Text(bytes.Length, Settings.Default().TargetEncoding);
+            content = AS400Text.toBytes(value);
+            Buffer.BlockCopy(content, 0, bytes, 0, content.Length < bytes.Length ? content.Length : bytes.Length);
         }
     }
 }

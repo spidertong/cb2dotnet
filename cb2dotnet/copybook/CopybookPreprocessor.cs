@@ -35,8 +35,11 @@ namespace cb2dotnet{
                             sb.Append('*');
                             thisColumnStart++;
                         }
-                        if (s.Length < columnEnd) {
-                            sb.Append(s.Substring(thisColumnStart));
+
+                        var fullstop = s.LastIndexOf('.') > 0 ? s.LastIndexOf('.') : s.Length;
+                        //if (s.Length < columnEnd) {
+                        if (fullstop < columnEnd) {
+                            sb.Append(s.Substring(thisColumnStart, fullstop));
                         } else {
                             sb.Append(s.Substring(thisColumnStart, columnEnd));
                         }

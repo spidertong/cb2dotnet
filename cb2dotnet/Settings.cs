@@ -11,7 +11,8 @@ namespace cb2dotnet{
 
 	public class Settings {
 
-		public Encoding TargetEncoding {get;set;} = System.Text.Encoding.GetEncoding("IBM037");
+		//public Encoding TargetEncoding {get;set;} = System.Text.Encoding.GetEncoding("IBM037");
+		public int TargetEncoding {get;set;} = 937;
 		public bool IsLittleEndian {get;set;} = false;
 
 		public int ColumnStart {get;set;} = 6;
@@ -27,7 +28,7 @@ namespace cb2dotnet{
 
 				var dict = getSetting(path);
 
-				DEFAULT.TargetEncoding 		= dict.ContainsKey("target-encoding") ? Encoding.GetEncoding(dict["target-encoding"]) : DEFAULT.TargetEncoding;
+				//DEFAULT.TargetEncoding 		= dict.ContainsKey("target-encoding") ? Encoding.GetEncoding(dict["target-encoding"]) : DEFAULT.TargetEncoding;
 				DEFAULT.IsLittleEndian 	= dict.ContainsKey("little-endian") ? bool.Parse(dict["little-endian"]) : DEFAULT.IsLittleEndian;
 
 				DEFAULT.ColumnStart 	= dict.ContainsKey("column.start") ? int.Parse(dict["column.start"]) : DEFAULT.ColumnStart;
